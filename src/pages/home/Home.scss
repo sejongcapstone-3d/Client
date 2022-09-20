@@ -1,0 +1,50 @@
+.home{
+  width: 100vw;
+  height: 100vh;
+  &-title{
+    position: absolute;
+    z-index: 9999;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    &-1{
+      font-family: 'ReemKufiFun';
+      font-size: 45px;
+      font-weight: 700;
+      color: black;
+    }
+    &-2{
+      font-family: 'ReemKufiFun';
+      font-size: 40px;
+      font-weight: 600;
+      color: blue;
+    }
+    &-button{
+      margin-top: 20px;
+      width: 200px;
+      height: 40px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background-color: black;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 8px;
+      &-text{
+        color: white;
+        font-family: "ReemKufiFun";
+        line-height: 5px;
+        font-size: 15px;
+      }
+      &-icon{
+        color: white;
+        height: 21px;
+      }
+      &:hover{
+        cursor: pointer;
+        width: 250px;
+        background-color: blue;
+      }
+      transition: .5s;
+    }
+  }
+}
