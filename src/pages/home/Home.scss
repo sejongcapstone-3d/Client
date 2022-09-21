@@ -1,50 +1,50 @@
-.home{
+.home {
   width: 100vw;
   height: 100vh;
-  &-title{
+  &-title {
     position: absolute;
     z-index: 9999;
     top: 50%;
     left: 10%;
     transform: translateY(-50%);
-    &-1{
-      font-family: 'ReemKufiFun';
-      font-size: 45px;
+    &-1 {
+      font-family: "Anton";
+      font-size: 1.8rem;
       font-weight: 700;
       color: black;
     }
-    &-2{
-      font-family: 'ReemKufiFun';
-      font-size: 40px;
+    &-2 {
+      font-family: "Anton";
+      font-size: 1rem;
       font-weight: 600;
       color: blue;
     }
-    &-button{
-      margin-top: 20px;
-      width: 200px;
-      height: 40px;
+    &-button {
+      margin-top: 1rem;
+      width: 10rem;
+      height: 2rem;
       border-radius: 20px;
       display: flex;
       justify-content: space-around;
       align-items: center;
       background-color: black;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 8px;
-      &-text{
+      &-text {
         color: white;
         font-family: "ReemKufiFun";
         line-height: 5px;
-        font-size: 15px;
+        font-size: 0.7rem;
       }
-      &-icon{
+      &-icon {
         color: white;
         height: 21px;
       }
-      &:hover{
+      &:hover {
         cursor: pointer;
-        width: 250px;
+        width: 12rem;
         background-color: blue;
       }
-      transition: .5s;
+      transition: 0.5s;
     }
   }
 }

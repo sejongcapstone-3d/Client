@@ -1,27 +1,33 @@
-body{
+body {
   margin: 0;
 }
 
 @font-face {
-  font-family: 'ReemKufiFun';
-  src: url('./common/fonts/ReemKufiFun-Bold.ttf');
+  font-family: "Anton";
+  src: url("./common/fonts/Anton-Regular.ttf");
   font-weight: 700;
 }
 
 @font-face {
-  font-family: 'ReemKufiFun';
-  src: url('./common/fonts/ReemKufiFun-SemiBold.ttf');
+  font-family: "ReemKufiFun";
+  src: url("./common/fonts/ReemKufiFun-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "ReemKufiFun";
+  src: url("./common/fonts/ReemKufiFun-SemiBold.ttf");
   font-weight: 600;
 }
 
 @font-face {
-  font-family: 'ReemKufiFun';
-  src: url('./common/fonts/ReemKufiFun-Medium.ttf');
+  font-family: "ReemKufiFun";
+  src: url("./common/fonts/ReemKufiFun-Medium.ttf");
   font-weight: 500;
 }
 
 @font-face {
-  font-family: 'ReemKufiFun';
-  src: url('./common/fonts/ReemKufiFun-Regular.ttf');
+  font-family: "ReemKufiFun";
+  src: url("./common/fonts/ReemKufiFun-Regular.ttf");
   font-weight: 400;
 }
