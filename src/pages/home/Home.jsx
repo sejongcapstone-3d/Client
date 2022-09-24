@@ -26,9 +26,22 @@ const Box = (props) => {
     ref.current.rotation.y += 0.005;
   });
 
+  const onPointerEnterHanlder = (e) => {
+    e.object.material.wireframe = true;
+  };
+
+  const onPointerLeaveHandler = (e) => {
+    e.object.material.wireframe = false;
+  };
+
   return (
-    <mesh ref={ref} {...props} castShadow>
-      <boxBufferGeometry args={[2.4, 2.4, 2.4]} />
+    <mesh
+      ref={ref}
+      {...props}
+      onPointerLeave={onPointerLeaveHandler}
+      onPointerEnter={onPointerEnterHanlder}
+      castShadow>
+      <boxBufferGeometry args={[3, 3, 3]} />
       <meshPhysicalMaterial color="blue" metalness={0.6} roughness={0.4} />
     </mesh>
   );
