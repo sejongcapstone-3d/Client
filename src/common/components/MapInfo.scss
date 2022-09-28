@@ -1,7 +1,62 @@
 .mapInfo{
+  font-family: "NotoSansKR";
   position: absolute;
   z-index: 10;
   width: 300px;
   height: 100vh;
   background-color: white;
+  &-exit{
+    cursor: pointer;
+    position: absolute;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin: 10px;
+    top: 0;
+    left: 0;
+  }
+  &-image{
+    width: 100%;
+  }
+  &-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ececec;
+    &-name{
+      font-weight: 600;
+    }
+    &-button{
+      cursor: pointer;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      text-align: center;
+      width: 30%;
+      height: 40px;
+      font-size: 13px;
+      background-color: rgb(7, 7, 128);
+      box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+      color: white;
+      border-radius: 10px;
+      line-height: 5px;
+      img{
+        height: 13px;
+      }
+    }
+  }
+  &-info{
+    margin: 15px 10px;
+    display: flex;
+    align-items: center;
+    &-label{
+      margin-left: 15px;
+      font-size: 13px;
+    }
+  }
 }

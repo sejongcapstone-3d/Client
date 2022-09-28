@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import MapInfo from "./MapInfo";
 import { useRef } from "react";
 import { useState } from "react";
-import {key} from "./key.js";
+import { key } from "./key.js";
+import "./GoogleMap.scss";
 
 const defaultProps = {
   center: {
@@ -19,12 +20,18 @@ const containerStyle = {
 };
 
 function GoogleMapComponent() {
+  const [isSelected, setIsSelected] = useState(false);
   const inputRef = useRef();
+  let searchBound;
   const [enteredInput, setEnteredInput] = useState('');
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: key
   })
+
+  const exitButtonHandler = () => {
+    setIsSelected(false);
+  };
 
   const [map, setMap] = React.useState(null)
 
@@ -40,12 +47,20 @@ function GoogleMapComponent() {
 
   const onClickHandler = (e) => {
     console.log(e.domEvent.target.title);
+    console.log(e);
+    setIsSelected(true);
+  };
+
+  const searchButtonClickHandler = () => {
+    console.log(inputRef.current.value);
+    console.log(searchBound);
+    map.setCenter(inputRef.current.value);
   };
 
   if (!isLoaded) return <></>
 
   return <div>
-    {/* <MapInfo /> */}
+    {isSelected && <MapInfo exit={exitButtonHandler}/>}
     <div>
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -54,9 +69,11 @@ function GoogleMapComponent() {
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        <Autocomplete >
-        <input
+        <div className="searchbar">
+          <Autocomplete bounds={searchBound} >
+            <input
               type="text"
+              className="serachbar-input"
               ref={inputRef}
               placeholder="Customized your placeholder"
               style={{
@@ -70,12 +87,13 @@ function GoogleMapComponent() {
                 fontSize: `14px`,
                 outline: `none`,
                 textOverflow: `ellipses`,
-                position: "absolute",
                 left: "50%",
                 marginLeft: "-120px"
               }}
             />
-        </Autocomplete>
+          </Autocomplete>
+          <div className="searchbar-button" onClick={searchButtonClickHandler}>찾기</div>
+        </div>
         <Marker zIndex={9999} onLoad={() => { console.log(1) }} title="세종대학교" position={defaultProps.center} onClick={onClickHandler} />
         {/* <LoadScript>
         <StandaloneSearchBox onPlacesChanged={() => { console.log(1) }}>
