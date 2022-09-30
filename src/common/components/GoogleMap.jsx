@@ -1,16 +1,18 @@
 import React from "react";
 import { GoogleMap, LoadScript, StandaloneSearchBox, Marker, useJsApiLoader, InfoWindow, Autocomplete } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
+import usePlacesAutocomplete, {getGeocode, getLatLng} from "use-places-autocomplete";
 import MapInfo from "./MapInfo";
 import { useRef } from "react";
 import { useState } from "react";
 import { key } from "./key.js";
 import "./GoogleMap.scss";
+import PlacesAutocomplete from "./PlacesAutoComplete";
 
 const defaultProps = {
   center: {
-    lat: 36.6855424,
-    lng: 126.323213
+    lat: 37.553310,
+    lng: 127.072680
   },
   zoom: 11
 }
@@ -22,7 +24,7 @@ const containerStyle = {
 function GoogleMapComponent() {
   const [isSelected, setIsSelected] = useState(false);
   const inputRef = useRef();
-  let searchBound;
+  let field;
   const [enteredInput, setEnteredInput] = useState('');
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -36,8 +38,8 @@ function GoogleMapComponent() {
   const [map, setMap] = React.useState(null)
 
   const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(defaultProps.center);
-    map.fitBounds(bounds);
+    // const bounds = new window.google.maps.LatLngBounds(defaultProps.center);
+    // map.fitBounds(bounds);
     setMap(map)
   }, [])
 
@@ -53,8 +55,12 @@ function GoogleMapComponent() {
 
   const searchButtonClickHandler = () => {
     console.log(inputRef.current.value);
-    console.log(searchBound);
+    console.log(field);
     map.setCenter(inputRef.current.value);
+  };
+
+  const selectAutoCompletePlace = (lat,lng) => {
+    map.setCenter({lat,lng});
   };
 
   if (!isLoaded) return <></>
@@ -65,12 +71,13 @@ function GoogleMapComponent() {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={defaultProps.center}
-        zoom={10}
+        zoom={16}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
         <div className="searchbar">
-          <Autocomplete bounds={searchBound} >
+          <PlacesAutocomplete select={selectAutoCompletePlace}/>
+          {/* <Autocomplete onPlaceChanged={(e)=>{console.log(e)}} fields={field} >
             <input
               type="text"
               className="serachbar-input"
@@ -91,8 +98,7 @@ function GoogleMapComponent() {
                 marginLeft: "-120px"
               }}
             />
-          </Autocomplete>
-          <div className="searchbar-button" onClick={searchButtonClickHandler}>찾기</div>
+          </Autocomplete> */}
         </div>
         <Marker zIndex={9999} onLoad={() => { console.log(1) }} title="세종대학교" position={defaultProps.center} onClick={onClickHandler} />
         {/* <LoadScript>

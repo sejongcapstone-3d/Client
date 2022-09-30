@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import useOnclickOutside from "react-cool-onclickoutside";
 import "./MapInfo.scss";
 import Info from "../icons/info.svg";
 import Phone from "../icons/phone.svg";
@@ -7,21 +9,30 @@ import BackArrow from "../icons/back-arrow.svg";
 import RightArrow from "../icons/right-arrow.svg";
 
 function MapInfo(props) {
+  const ref = useOnclickOutside(()=>{
+    props.exit();
+  });
+  const navigate = useNavigate();
+
+  const navButtonHandler = () => {
+    navigate('/room/1');
+  };
 
   const exitButtonHandler = () => {
     props.exit();
   };
 
-  return <div className="mapInfo">
+  return <div ref={ref} className="mapInfo">
     <div className="mapInfo-exit" onClick={exitButtonHandler}>
       <img src={BackArrow} alt="back-arrow" />
     </div>
     <img className="mapInfo-image" src={props.img || "https://happydorm.sejong.ac.kr/resources/images/20/con_img2020_01.jpg"} alt="placeImage" />
     <div className="mapInfo-main">
       <div className="mapInfo-main-name">{props.name || "세종대학교"}</div>
-      <div className="mapInfo-main-button">
+      <div onClick={navButtonHandler} className="mapInfo-main-button">
         3D View
-        <img className="mapInfo-main-icon" src={RightArrow} alt="arrow" /></div>
+        <img className="mapInfo-main-icon" src={RightArrow} alt="arrow" />
+        </div>
     </div>
     <div className="mapInfo-info">
       <img className="mapInfo-info-icon" src={Location} alt="location" />
