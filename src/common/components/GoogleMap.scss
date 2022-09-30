@@ -3,4 +3,11 @@
   left: 50%;
   top: 20px;
   display: flex;
+  transform: translateX(-50%);
+  &:focus{
+    border: none;
+  }
+  &:active{
+    border: none;
+  }
 }

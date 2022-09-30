@@ -1,0 +1,35 @@
+.placeAutoComplete{
+  width: 400px;
+  
+  input{
+    padding: 2px 0;
+    width: 95%;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ececec;
+    font-size: 1rem;
+    padding-left: 5%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    &:focus-visible{
+      outline: none;
+    }
+    &:active{
+      // border: none;
+    }
+  }
+  &-list{
+    padding: 5%;
+    border: 1px solid #ececec;
+    background-color: white;
+    margin: 0;
+    width: 90%;
+    padding-top: 10px;
+    transform: translateY(-5px);
+    li{
+      cursor: pointer;
+      margin: 5px;
+      list-style: none;
+      background-color: white;
+    }
+  }
+}

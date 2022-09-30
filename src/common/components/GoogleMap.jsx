@@ -76,7 +76,7 @@ function GoogleMapComponent() {
         onUnmount={onUnmount}
       >
         <div className="searchbar">
-          <PlacesAutocomplete select={selectAutoCompletePlace}/>
+          <PlacesAutocomplete className="searchbar" select={selectAutoCompletePlace}/>
           {/* <Autocomplete onPlaceChanged={(e)=>{console.log(e)}} fields={field} >
             <input
               type="text"

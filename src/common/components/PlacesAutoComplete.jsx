@@ -61,16 +61,15 @@ const PlacesAutocomplete = (props) => {
     });
 
   return (
-    <div ref={ref}>
+    <div className="placeAutoComplete" ref={ref}>
       <input
-        className="placeAutoComplete"
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        placeholder="원하는 지역의 집 찾기"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
-      {status === "OK" && <ul>{renderSuggestions()}</ul>}
+      {status === "OK" && <ul className="placeAutoComplete-list">{renderSuggestions()}</ul>}
     </div>
   );
 };
