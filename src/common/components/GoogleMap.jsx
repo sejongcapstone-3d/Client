@@ -35,12 +35,17 @@ function GoogleMapComponent() {
     setIsSelected(false);
   };
 
+  const mapOptions = {
+    disableDefaultUI: true
+  }
+
   const [map, setMap] = React.useState(null)
 
   const onLoad = React.useCallback(function callback(map) {
     // const bounds = new window.google.maps.LatLngBounds(defaultProps.center);
     // map.fitBounds(bounds);
     setMap(map)
+    map.disableDefaultUI= true;
   }, [])
 
   const onUnmount = React.useCallback(function callback(map) {
@@ -51,12 +56,6 @@ function GoogleMapComponent() {
     console.log(e.domEvent.target.title);
     console.log(e);
     setIsSelected(true);
-  };
-
-  const searchButtonClickHandler = () => {
-    console.log(inputRef.current.value);
-    console.log(field);
-    map.setCenter(inputRef.current.value);
   };
 
   const selectAutoCompletePlace = (lat,lng) => {
@@ -71,7 +70,9 @@ function GoogleMapComponent() {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={defaultProps.center}
+        clickableIcons={false}
         zoom={16}
+        options={mapOptions}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
