@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef,useState } from "react";
 import * as THREE from "three";
 import {
   Canvas,
@@ -7,11 +7,14 @@ import {
   useThree,
   useLoader
 } from "@react-three/fiber";
-import { useNavigate } from "react-router-dom";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Model from "../../common/components/Model";
 import Arrow from "../../common/icons/arrow-white.svg";
 import Dragable from "../../common/components/Dragable";
+import "./Room.scss";
+import RoomHeader from "./RoomHeader";
+import RoomSideBar from "./RoomSideBar";
+
 extend({ OrbitControls });
 
 const Orbit = () => {
@@ -37,30 +40,38 @@ const Box = (props) => {
   );
 };
 
-const Floor = (props) => {
-  return (
-    <mesh {...props} receiveShadow>
-      <boxBufferGeometry args={[50, 1, 100]} />
-      <meshPhysicalMaterial color={"0xffffff"} />
-    </mesh>
-  );
-};
-
 function Room() {
-  const navigate = useNavigate();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isOrbit, setIsOrbit] = useState(true);
+  const [isDragable, setIsDragable] = useState(false);
+  const loadHandler = () => {
+    setIsLoaded(true);
+  };
+
+  const isOrbitHandler = () => {
+    setIsOrbit(true);
+    setIsDragable(false);
+  };
+  const isDragHandler = () => {
+    setIsOrbit(false);
+    setIsDragable(true);
+  };
 
   return (
-    <div className="home">
+    <div className="room">
+      <RoomHeader/>
+      <RoomSideBar orbit={isOrbitHandler} drag={isDragHandler}/>
+      {!isLoaded && <div className="room-loading">Loading...</div>}
       <Canvas
         shadows
-        style={{ background: "white" }}
+        style={{ background: "#ececec" }}
         camera={{ position: [4, 4, 4] }}>
         <pointLight castShadow position={[1, 5, 0]} />
-        <Orbit />
+        {isLoaded && isOrbit && <Orbit />}
         <Suspense fallback={<Box position={[0, 0, 0]} />}>
-          {/* <Dragable> */}
-            <Model position={[0, 0, 0]} scale={[0.8, 0.8, 0.8]} path='https://3d-rooms.s3.ap-northeast-2.amazonaws.com/Room.json' />
-          {/* </Dragable> */}
+          <Dragable drag={isDragable}>
+            <Model loading={loadHandler} position={[0, 0, 0]} scale={[0.8, 0.8, 0.8]} path='https://3d-rooms.s3.ap-northeast-2.amazonaws.com/test/Room.json' />
+          </Dragable>
         </Suspense>
         <ambientLight intensity={1} />
       </Canvas>

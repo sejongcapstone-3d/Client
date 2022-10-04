@@ -11,6 +11,7 @@ const Model = props => {
     props.path
   );
   console.log(model);
+  props.loading();
   return <primitive {...props} ref={ref} object={model.scene}/>;
 }
 

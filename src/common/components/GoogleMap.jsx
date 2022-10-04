@@ -1,7 +1,16 @@
 import React from "react";
-import { GoogleMap, LoadScript, StandaloneSearchBox, Marker, useJsApiLoader, InfoWindow, Autocomplete } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Animation,
+  LoadScript,
+  StandaloneSearchBox,
+  Marker,
+  useJsApiLoader,
+  InfoWindow,
+  Autocomplete,
+} from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
-import usePlacesAutocomplete, {getGeocode, getLatLng} from "use-places-autocomplete";
+import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import MapInfo from "./MapInfo";
 import { useRef } from "react";
 import { useState } from "react";
@@ -11,46 +20,46 @@ import PlacesAutocomplete from "./PlacesAutoComplete";
 
 const defaultProps = {
   center: {
-    lat: 37.553310,
-    lng: 127.072680
+    lat: 37.55331,
+    lng: 127.07268,
   },
-  zoom: 11
-}
+  zoom: 11,
+};
 const containerStyle = {
-  width: '100vw',
-  height: '100vh'
+  width: "100vw",
+  height: "100vh",
 };
 
 function GoogleMapComponent() {
   const [isSelected, setIsSelected] = useState(false);
   const inputRef = useRef();
   let field;
-  const [enteredInput, setEnteredInput] = useState('');
+  const [enteredInput, setEnteredInput] = useState("");
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: key
-  })
+    id: "google-map-script",
+    googleMapsApiKey: key,
+  });
 
   const exitButtonHandler = () => {
     setIsSelected(false);
   };
 
   const mapOptions = {
-    disableDefaultUI: true
-  }
+    disableDefaultUI: true,
+  };
 
-  const [map, setMap] = React.useState(null)
+  const [map, setMap] = React.useState(null);
 
   const onLoad = React.useCallback(function callback(map) {
     // const bounds = new window.google.maps.LatLngBounds(defaultProps.center);
     // map.fitBounds(bounds);
-    setMap(map)
-    map.disableDefaultUI= true;
-  }, [])
+    setMap(map);
+    map.disableDefaultUI = true;
+  }, []);
 
   const onUnmount = React.useCallback(function callback(map) {
-    setMap(null)
-  }, [])
+    setMap(null);
+  }, []);
 
   const onClickHandler = (e) => {
     console.log(e.domEvent.target.title);
@@ -58,27 +67,28 @@ function GoogleMapComponent() {
     setIsSelected(true);
   };
 
-  const selectAutoCompletePlace = (lat,lng) => {
-    map.setCenter({lat,lng});
+  const selectAutoCompletePlace = (lat, lng) => {
+    map.setCenter({ lat, lng });
   };
 
-  if (!isLoaded) return <></>
+  if (!isLoaded) return <></>;
 
-  return <div>
-    {isSelected && <MapInfo exit={exitButtonHandler}/>}
+  return (
     <div>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={defaultProps.center}
-        clickableIcons={false}
-        zoom={16}
-        options={mapOptions}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-      >
-        <div className="searchbar">
-          <PlacesAutocomplete className="searchbar" select={selectAutoCompletePlace}/>
-          {/* <Autocomplete onPlaceChanged={(e)=>{console.log(e)}} fields={field} >
+      {isSelected && <MapInfo exit={exitButtonHandler} />}
+      <div>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={defaultProps.center}
+          clickableIcons={false}
+          zoom={16}
+          options={mapOptions}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          <div className="searchbar">
+            <PlacesAutocomplete className="searchbar" select={selectAutoCompletePlace} />
+            {/* <Autocomplete onPlaceChanged={(e)=>{console.log(e)}} fields={field} >
             <input
               type="text"
               className="serachbar-input"
@@ -100,9 +110,17 @@ function GoogleMapComponent() {
               }}
             />
           </Autocomplete> */}
-        </div>
-        <Marker zIndex={9999} onLoad={() => { console.log(1) }} title="세종대학교" position={defaultProps.center} onClick={onClickHandler} />
-        {/* <LoadScript>
+          </div>
+          <Marker
+            zIndex={9999}
+            onLoad={() => {
+              console.log(1);
+            }}
+            title="세종대학교"
+            position={defaultProps.center}
+            onClick={onClickHandler}
+          />
+          {/* <LoadScript>
         <StandaloneSearchBox onPlacesChanged={() => { console.log(1) }}>
           <input
             type="text"
@@ -125,11 +143,12 @@ function GoogleMapComponent() {
           />
         </StandaloneSearchBox>
         </LoadScript> */}
-        { /* Child components, such as markers, info windows, etc. */}
-        <></>
-      </GoogleMap>
+          {/* Child components, such as markers, info windows, etc. */}
+          <></>
+        </GoogleMap>
+      </div>
     </div>
-  </div>
+  );
 }
 
 export default GoogleMapComponent;

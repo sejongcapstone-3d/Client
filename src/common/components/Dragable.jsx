@@ -16,7 +16,7 @@ const Dragable = props => {
 
   return (
     <group ref={groupRef}>
-      <dragControls args={[children, camera, gl.domElement]} />
+      {props.drag && <dragControls args={[children, camera, gl.domElement]} />}
       {props.children}
     </group>
   )
