@@ -6,3 +6,19 @@
   transform: translateX(-50%);
   
 }
+.userLocation{
+  position: absolute;
+  top: 20px;
+  right: 10%;
+  z-index: 9;
+  width: 28px;
+  height: 28px;
+  background-color: white;
+  padding: 4px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}

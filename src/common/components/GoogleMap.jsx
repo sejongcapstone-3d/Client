@@ -9,7 +9,6 @@ import {
   InfoWindow,
   Autocomplete,
 } from "@react-google-maps/api";
-import { Link, useNavigate } from "react-router-dom";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import MapInfo from "./MapInfo";
 import { useRef } from "react";
@@ -17,6 +16,8 @@ import { useState } from "react";
 import { key } from "./key.js";
 import "./GoogleMap.scss";
 import PlacesAutocomplete from "./PlacesAutoComplete";
+import { useEffect } from "react";
+import CurrentLocation from "../../common/icons/user-location.svg";
 
 const defaultProps = {
   center: {
@@ -32,9 +33,18 @@ const containerStyle = {
 
 function GoogleMapComponent() {
   const [isSelected, setIsSelected] = useState(false);
+  const [enteredInput, setEnteredInput] = useState("");
+  const [userLocation, setUserLocation] = useState();
   const inputRef = useRef();
   let field;
-  const [enteredInput, setEnteredInput] = useState("");
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      console.log(coords.latitude);
+      setUserLocation({lat:coords.latitude, lng:coords.longitude});
+    });
+  }, []);
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: key,
@@ -71,15 +81,24 @@ function GoogleMapComponent() {
     map.setCenter({ lat, lng });
   };
 
+  const currentLocationHandler = () => {
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      map.panTo({lat:coords.latitude, lng:coords.longitude});
+    });
+  };
+
   if (!isLoaded) return <></>;
 
   return (
     <div>
       {isSelected && <MapInfo exit={exitButtonHandler} />}
+      <div className="userLocation" onClick={currentLocationHandler}>
+        <img src={CurrentLocation} alt="user-location"/>
+      </div>
       <div>
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={defaultProps.center}
+          center={userLocation || defaultProps.center}
           clickableIcons={false}
           zoom={16}
           options={mapOptions}
@@ -88,63 +107,13 @@ function GoogleMapComponent() {
         >
           <div className="searchbar">
             <PlacesAutocomplete className="searchbar" select={selectAutoCompletePlace} />
-            {/* <Autocomplete onPlaceChanged={(e)=>{console.log(e)}} fields={field} >
-            <input
-              type="text"
-              className="serachbar-input"
-              ref={inputRef}
-              placeholder="Customized your placeholder"
-              style={{
-                boxSizing: `border-box`,
-                border: `1px solid transparent`,
-                width: `240px`,
-                height: `32px`,
-                padding: `0 12px`,
-                borderRadius: `3px`,
-                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                fontSize: `14px`,
-                outline: `none`,
-                textOverflow: `ellipses`,
-                left: "50%",
-                marginLeft: "-120px"
-              }}
-            />
-          </Autocomplete> */}
           </div>
           <Marker
             zIndex={9999}
-            onLoad={() => {
-              console.log(1);
-            }}
             title="세종대학교"
             position={defaultProps.center}
             onClick={onClickHandler}
           />
-          {/* <LoadScript>
-        <StandaloneSearchBox onPlacesChanged={() => { console.log(1) }}>
-          <input
-            type="text"
-            placeholder="Customized your placeholder"
-            style={{
-              boxSizing: `border-box`,
-              border: `1px solid transparent`,
-              width: `240px`,
-              height: `32px`,
-              padding: `0 12px`,
-              borderRadius: `3px`,
-              boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-              fontSize: `14px`,
-              outline: `none`,
-              textOverflow: `ellipses`,
-              position: "absolute",
-              left: "50%",
-              marginLeft: "-120px"
-            }}
-          />
-        </StandaloneSearchBox>
-        </LoadScript> */}
-          {/* Child components, such as markers, info windows, etc. */}
-          <></>
         </GoogleMap>
       </div>
     </div>

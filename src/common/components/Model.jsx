@@ -10,6 +10,7 @@ const Model = props => {
     GLTFLoader,
     props.path
   );
+  model.scene.uuid = 2;
   console.log(model);
   props.loading();
   return <primitive {...props} ref={ref} object={model.scene}/>;
