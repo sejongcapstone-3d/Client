@@ -11,6 +11,7 @@ const RoomSideBar = (props) => {
 
   return (
     <div className="sidebar">
+      <div onClick={props.delete}>삭제</div>
       <div
         className={classNames("sidebar-item", { selected: selected === "mouse" })}
         onClick={() => {

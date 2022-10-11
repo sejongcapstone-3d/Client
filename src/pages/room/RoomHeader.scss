@@ -1,9 +1,28 @@
 .room-header{
   position: absolute;
+  display: flex;
+  align-items: center;
   top: 0;
   z-index: 99;
   background-color: white;
   width: 100vw;
-  height: 70px;
+  height: 100px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  &-main{
+    display: flex;
+    height: 70px;
+    div{
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      &:first-child{
+        // background-color: rgb(0, 255, 187);
+      }
+      background-color: white;
+      // background-color: cornflowerblue;
+    
+    }
+  }
 }

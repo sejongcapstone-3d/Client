@@ -1,10 +1,16 @@
-import { extend, useThree } from "@react-three/fiber";
-import { TransformControls } from "three/examples/jsm/controls/TransformControls";
-extend({ TransformControls });
+import React from "react";
+import "./Furniture.scss";
 
-const Transform = () => {
-  const {camera, gl} = useThree();
-  return <transfromControls args={[camera, gl.domElement]} setMode='transform' />;
+const Furniture = (props) => {
+  const clickHandler = () => {
+    props.addFurniture(props.path, 'translate', true);
+  };
+  return (
+    <div className="furniture" onClick={clickHandler}>
+      <img src={props.img} alt="furniture" />
+      <div className="furniture-name">{props.name}</div>
+    </div>
+  );
 };
 
-export default Transform;
+export default Furniture;
