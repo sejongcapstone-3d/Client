@@ -8,8 +8,10 @@ import Dragable from "../../common/components/Dragable";
 import "./Room.scss";
 import RoomHeader from "./RoomHeader";
 import RoomSideBar from "./RoomSideBar";
-import { TransformControls } from "@react-three/drei";
+import { TransformControls, useSelect } from "@react-three/drei";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { furnitureActions } from "../../redux/furnitureSlice";
 
 extend({ OrbitControls });
 
@@ -35,18 +37,23 @@ const Box = (props) => {
 
 function Room() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [mode, setMode] = useState("translate");
+  // const [mode, setMode] = useState("translate");
   const [isOrbit, setIsOrbit] = useState(true);
   const [isDragable, setIsDragable] = useState(false);
+  const furnitures = useSelector((state) => state.furnitures);
+  const selectedFurniture = useSelector((state) => state.selectedFurniture);
+  const mode = useSelector((state) => state.mode);
   const [furniture, setFurniture] = useState([]);
-  const [furnitureData, setFurnitureData] = useState([]);
+  // const [furnitureData, setFurnitureData] = useState([]);
+  const dispatch = useDispatch();
   const loadHandler = () => {
     setIsLoaded(true);
   };
 
+  console.log(mode);
   useEffect(() => {
     setFurniture(
-      furnitureData.map((data) => {
+      furnitures.map((data) => {
         return (
           <TransformControls mode={mode}>
             <Model
@@ -59,51 +66,12 @@ function Room() {
         );
       })
     );
-  }, [furnitureData, mode]);
-
-  const isOrbitHandler = () => {
-    setIsOrbit(true);
-    // setIsDragable(false);
-    setMode("translate");
-    // setFurniture(
-    //   furniture.map((prev) => {
-    //     return (
-    //       <TransformControls mode="translate">
-    //         <Model
-    //           loading={loadHandler}
-    //           position={[0, 0, 0]}
-    //           scale={[0.8, 0.8, 0.8]}
-    //           path="https://3d-rooms.s3.ap-northeast-2.amazonaws.com/furniture/closet/0copy.json"
-    //         />
-    //       </TransformControls>
-    //     );
-    //   })
-    // );
-  };
-  const isDragHandler = () => {
-    setIsOrbit(false);
-    setMode("rotate");
-    // setIsDragable(true);
-    // setFurniture(
-    //   furniture.map((prev) => {
-    //     return (
-    //       <TransformControls mode="rotate">
-    //         <Model
-    //           loading={loadHandler}
-    //           position={[0, 0, 0]}
-    //           scale={[0.8, 0.8, 0.8]}
-    //           path="https://3d-rooms.s3.ap-northeast-2.amazonaws.com/furniture/closet/0copy.json"
-    //         />
-    //       </TransformControls>
-    //     );
-    //   })
-    // );
-  };
+  }, [furnitures, mode]);
 
   const addFurniture = (path, mode, id) => {
-    setFurnitureData((prev) => {
-      return [...prev, { path, mode, id }];
-    });
+    // setFurnitureData((prev) => {
+    //   return [...prev, { path, mode, id }];
+    // });
     // setFurniture((prev) => {
     //   return [
     //     ...prev,
@@ -119,14 +87,10 @@ function Room() {
     // });
   };
 
-  const deleteFurniture = () => {
-    setFurnitureData(furnitureData.splice(1));
-  };
-
   return (
     <div className="room">
       <RoomHeader addFurniture={addFurniture} />
-      {<RoomSideBar delete={deleteFurniture} orbit={isOrbitHandler} drag={isDragHandler} />}
+      {<RoomSideBar />}
       {/* {!isLoaded && <div className="room-loading">Loading...</div>} */}
       <Canvas shadows style={{ background: "#ececec" }} camera={{ position: [4, 4, 4] }}>
         <pointLight castShadow position={[1, 5, 0]} />

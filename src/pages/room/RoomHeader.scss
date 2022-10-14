@@ -29,13 +29,23 @@
   &-sub{
     display: flex;
     align-items: center;
+    margin-right: 30px;
     &-item{
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       border-radius: 100%;
-      width: 50px;
-      height: 50px;
-      background-color: #ececec;
+      width: 55px;
+      height: 55px;
+      // background-color: #ececec;
       img{
-        width: 100%;
+        width: 70%;
+      }
+      div{
+        text-align: center;
+        font-size: 9px;
       }
     }
   }

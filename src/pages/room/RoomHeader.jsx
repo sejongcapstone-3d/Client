@@ -31,9 +31,11 @@ const RoomHeader = (props) => {
       <div className="room-header-sub">
         <div className="room-header-sub-item">
           <img src={Delete} alt="clear"/>
+          <div>가구 초기화</div>
         </div>
         <div className="room-header-sub-item">
           <img src={Info} alt="info" />
+          <div>방 정보</div>
         </div>
       </div>
     </div>

@@ -1,9 +1,16 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import "./Furniture.scss";
+import { furnitureActions } from "../../redux/furnitureSlice";
 
 const Furniture = (props) => {
+  const dispatch = useDispatch();
   const clickHandler = () => {
-    props.addFurniture(props.path, 'translate', true);
+    console.log(props.name, props.path);
+    dispatch(furnitureActions.addFurniture({
+      name: props.name,
+      path: props.path
+    }))
   };
   return (
     <div className="furniture" onClick={clickHandler}>

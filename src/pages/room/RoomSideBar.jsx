@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import Chair from "../../common/icons/chair.svg";
 import Mouse from "../../common/icons/mouse.svg";
 import "./RoomSideBar.scss";
 import BlueMouse from "../../common/icons/mouse-blue.svg";
-import BlueChair from "../../common/icons/chair-blue.svg";
+import Rotate from "../../common/icons/rotate.svg";
+import BlueRotate from "../../common/icons/rotate-blue.svg";
 import classNames from "classnames";
+import { useDispatch } from "react-redux";
+import { furnitureActions } from "../../redux/furnitureSlice";
 
 const RoomSideBar = (props) => {
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState("mouse");
 
   return (
     <div className="sidebar">
-      <div onClick={props.delete}>삭제</div>
       <div
         className={classNames("sidebar-item", { selected: selected === "mouse" })}
         onClick={() => {
-          setSelected("mouse");
-          props.orbit();
+          dispatch(furnitureActions.chagneModeToTranslate())
         }}
       >
         <img src={selected === "mouse" ? BlueMouse : Mouse} alt="mouse" />
@@ -24,11 +25,10 @@ const RoomSideBar = (props) => {
       <div
         className={classNames("sidebar-item", { selected: selected === "chair" })}
         onClick={() => {
-          setSelected("chair");
-          props.drag();
+          dispatch(furnitureActions.changeModeToRotate())
         }}
       >
-        <img src={selected === "chair" ? BlueChair : Chair} alt="furniture" />
+        <img src={selected === "chair" ? BlueRotate : Rotate} alt="furniture" />
       </div>
     </div>
   );
