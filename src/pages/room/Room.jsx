@@ -12,6 +12,7 @@ import { TransformControls, useSelect } from "@react-three/drei";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { furnitureActions } from "../../redux/furnitureSlice";
+import FurnitureSelector from "./FurnitureSelector";
 
 extend({ OrbitControls });
 
@@ -89,6 +90,7 @@ function Room() {
 
   return (
     <div className="room">
+      <FurnitureSelector/>
       <RoomHeader addFurniture={addFurniture} />
       {<RoomSideBar />}
       {/* {!isLoaded && <div className="room-loading">Loading...</div>} */}

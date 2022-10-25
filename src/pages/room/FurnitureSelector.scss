@@ -1,0 +1,27 @@
+.selector{
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 505px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(-50%);
+  z-index: 10;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 5px;
+  &-item{
+    padding: 10px;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    width: 50px;
+    cursor: pointer;
+    img{
+      width: 90%;
+    }
+  }
+}
