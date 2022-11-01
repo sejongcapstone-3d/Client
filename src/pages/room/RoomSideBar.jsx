@@ -15,17 +15,19 @@ const RoomSideBar = (props) => {
   return (
     <div className="sidebar">
       <div
-        className={classNames("sidebar-item", { selected: selected === "mouse" })}
+        className={classNames("sidebar-item translate", { selected: selected === "mouse" })}
         onClick={() => {
           dispatch(furnitureActions.chagneModeToTranslate())
+          setSelected('mouse');
         }}
       >
         <img src={selected === "mouse" ? BlueMouse : Mouse} alt="mouse" />
       </div>
       <div
-        className={classNames("sidebar-item", { selected: selected === "chair" })}
+        className={classNames("sidebar-item rotate", { selected: selected === "chair" })}
         onClick={() => {
           dispatch(furnitureActions.changeModeToRotate())
+          setSelected('chair');
         }}
       >
         <img src={selected === "chair" ? BlueRotate : Rotate} alt="furniture" />

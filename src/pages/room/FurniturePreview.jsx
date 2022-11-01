@@ -4,7 +4,7 @@ import { Canvas, useFrame, extend, useThree, useLoader } from "@react-three/fibe
 import Model from "../../common/components/Model";
 import "./FurniturePreview.scss";
 
-function FurniturePreivew() {
+function FurniturePreivew(props) {
   const Box = (props) => {
     const ref = useRef();
     useFrame((state) => {
@@ -29,7 +29,7 @@ function FurniturePreivew() {
           <Model
             position={[0, 0, 0]}
             scale={[2.5, 2.5, 2.5]}
-            path="https://3d-rooms.s3.ap-northeast-2.amazonaws.com/furniture/bed/0.json"
+            path={props.path}
           />
         </Suspense>
       </Canvas>
