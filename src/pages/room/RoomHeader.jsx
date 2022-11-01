@@ -5,16 +5,22 @@ import FillRoom from "../../common/icons/fill-room.svg";
 import EmptyRoom from "../../common/icons/empty-room.svg";
 import Furniture from "./Furniture";
 import FurnitureList from "./FurnitureList";
-
 import TopArrow from "../../common/icons/top-arrow.svg";
 import Delete from "../../common/icons/delete.svg";
 import Info from "../../common/icons/info.svg";
+import { furnitureActions } from "../../redux/furnitureSlice";
+import { useDispatch } from "react-redux";
 
 const RoomHeader = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const backButtonHandler = () => {
     navigate(-1);
+  };
+
+  const clearFurniture = () => {
+    dispatch(furnitureActions.clearFurniture());
   };
 
   return (
@@ -29,7 +35,7 @@ const RoomHeader = (props) => {
       </div>
       <FurnitureList addFurniture={props.addFurniture}/>
       <div className="room-header-sub">
-        <div className="room-header-sub-item">
+        <div className="room-header-sub-item" onClick={clearFurniture}>
           <img src={Delete} alt="clear"/>
           <div>가구 초기화</div>
         </div>

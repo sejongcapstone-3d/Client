@@ -6,6 +6,10 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 const Model = (props) => {
   const ref = useRef();
 
+  useFrame((state) => {
+    ref.current.rotation.y += 0.005;
+  });
+
   const model = useLoader(GLTFLoader, props.path);
   console.log(model);
   return (

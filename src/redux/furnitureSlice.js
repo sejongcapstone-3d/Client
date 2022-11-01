@@ -7,6 +7,8 @@ const furnitureSlice = createSlice({
     selectedFurniture: null,
     mode: "translate",
     currentId: 1,
+    selectedInfo: null,
+    furnitureInfo: false,
   },
   reducers: {
     select(state, action) {
@@ -18,13 +20,27 @@ const furnitureSlice = createSlice({
     addFurniture(state, action) {
       console.log(action.payload);
       console.log(state.furnitures);
-      state.furnitures = [...state.furnitures,
-        { name: action.payload.name, path: action.payload.path, id: state.currentId },
+      state.furnitures = [
+        ...state.furnitures,
+        {
+          name: action.payload.name,
+          path: action.payload.path,
+          id: state.currentId,
+          img: action.payload.img,
+          size: action.payload.size,
+        },
       ];
+      if (state.currentId === 1)
+        state.selectedFurniture = {
+          name: action.payload.name,
+          path: action.payload.path,
+          id: state.currentId,
+        };
       state.currentId += 1;
     },
     clearFurniture(state) {
       state.furnitures = [];
+      state.selectedFurniture = null;
       state.currentId = 1;
     },
     chagneModeToTranslate(state) {
@@ -32,6 +48,15 @@ const furnitureSlice = createSlice({
     },
     changeModeToRotate(state) {
       state.mode = "rotate";
+    },
+    infoShow(state) {
+      state.furnitureInfo = true;
+    },
+    infoHide(state) {
+      state.furnitureInfo = false;
+    },
+    setInfo(state, action) {
+      state.selectedInfo = action.payload;
     },
   },
 });

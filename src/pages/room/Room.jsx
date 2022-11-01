@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { furnitureActions } from "../../redux/furnitureSlice";
 import FurnitureSelector from "./FurnitureSelector";
+import FurnitureInfo from "./FurnitureInfo";
 
 extend({ OrbitControls });
 
@@ -47,6 +48,8 @@ function Room() {
   const [furniture, setFurniture] = useState([]);
   // const [furnitureData, setFurnitureData] = useState([]);
   const dispatch = useDispatch();
+  const infoOpen = useSelect((state)=>state.furnitureInfo);
+  console.log(infoOpen);
   const loadHandler = () => {
     setIsLoaded(true);
   };
@@ -56,7 +59,15 @@ function Room() {
     setFurniture(
       furnitures.map((data) => {
         return (
-          <TransformControls mode={mode}>
+          <TransformControls
+            onMouseDown={()=>{setIsLoaded(true)}}
+            onMouseUp={()=>{setIsLoaded(false)}}
+            showX={selectedFurniture.id === data.id}
+            showY={selectedFurniture.id === data.id}
+            showZ={selectedFurniture.id === data.id}
+            enabled={selectedFurniture.id === data.id}
+            mode={mode}
+          >
             <Model
               loading={loadHandler}
               position={[0, 0, 0]}
@@ -65,9 +76,30 @@ function Room() {
             />
           </TransformControls>
         );
+        // if (selectedFurniture.id === data.id) {
+        //   return (
+        //     <TransformControls mode={mode}>
+        //       <Model
+        //         loading={loadHandler}
+        //         position={[0, 0, 0]}
+        //         scale={[0.8, 0.8, 0.8]}
+        //         path={data.path}
+        //       />
+        //     </TransformControls>
+        //   );
+        // } else {
+        //   return (
+        //     <Model
+        //       loading={loadHandler}
+        //       position={[0, 0, 0]}
+        //       scale={[0.8, 0.8, 0.8]}
+        //       path={data.path}
+        //     />
+        //   );
+        // }
       })
     );
-  }, [furnitures, mode]);
+  }, [furnitures, mode, selectedFurniture]);
 
   const addFurniture = (path, mode, id) => {
     // setFurnitureData((prev) => {
@@ -87,16 +119,17 @@ function Room() {
     //   ];
     // });
   };
-
+  console.log(isLoaded, isOrbit);
   return (
     <div className="room">
-      <FurnitureSelector/>
+      <FurnitureSelector />
       <RoomHeader addFurniture={addFurniture} />
+      {infoOpen && <FurnitureInfo/>}
       {<RoomSideBar />}
       {/* {!isLoaded && <div className="room-loading">Loading...</div>} */}
       <Canvas shadows style={{ background: "#ececec" }} camera={{ position: [4, 4, 4] }}>
         <pointLight castShadow position={[1, 5, 0]} />
-        {isLoaded && isOrbit && <Orbit />}
+        {!isLoaded && isOrbit && <Orbit />}
         <Suspense fallback={<Box position={[0, 0, 0]} />}>
           {/* <primitive onClick={()=>{console.log(1)}} object={new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshNormalMaterial())}/> */}
           {/* <Model

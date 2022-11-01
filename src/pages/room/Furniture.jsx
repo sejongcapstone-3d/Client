@@ -6,10 +6,23 @@ import { furnitureActions } from "../../redux/furnitureSlice";
 const Furniture = (props) => {
   const dispatch = useDispatch();
   const clickHandler = () => {
-    dispatch(furnitureActions.addFurniture({
-      name: props.name,
-      path: props.path
-    }))
+    dispatch(furnitureActions.infoShow());
+    dispatch(
+      furnitureActions.setInfo({
+        name: props.name,
+        path: props.path,
+        size: props.size,
+        img: props.img,
+      })
+    );
+    // dispatch(
+    //   furnitureActions.addFurniture({
+    //     name: props.name,
+    //     path: props.path,
+    //     size: props.size,
+    //     img: props.img,
+    //   })
+    // );
   };
   return (
     <div className="furniture" onClick={clickHandler}>
