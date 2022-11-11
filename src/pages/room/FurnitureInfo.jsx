@@ -7,7 +7,8 @@ import FurniturePreivew from "./FurniturePreview";
 import Exit from "../../common/icons/exit.svg";
 
 function FurnitureInfo() {
-  const selected = useSelector((state) => state.selectedInfo);
+  const selected = useSelector((state) => state.furniture.selectedInfo);
+  console.log(selected);
   const dispatch = useDispatch();
   const addFurniture = () => {
     dispatch(

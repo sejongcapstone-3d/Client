@@ -7,8 +7,8 @@ import UpArrow from "../../common/icons/up-arrow.svg";
 import classNames from "classnames";
 
 function FurnitureSelector() {
-  const furnitures = useSelector((state) => state.furnitures);
-  const selectedFurniture = useSelector((state) => state.selectedFurniture);
+  const furnitures = useSelector((state) => state.furniture.furnitures);
+  const selectedFurniture = useSelector((state) => state.furniture.selectedFurniture);
   const [isHide, setIsHide] = useState(false);
   const dispatch = useDispatch();
   if (furnitures.length <= 0) return <div />;
@@ -28,7 +28,7 @@ function FurnitureSelector() {
           select(furniture);
         }}
       >
-        <img src="http://woodolens.com/morenvyimg/220922_pc_new01.jpg" alt="furniture" />
+        <img src={furniture.img} alt="furniture" />
         <div className="selector-item-name">{furniture.name}</div>
       </div>
     );

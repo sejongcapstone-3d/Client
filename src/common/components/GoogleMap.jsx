@@ -18,6 +18,9 @@ import "./GoogleMap.scss";
 import PlacesAutocomplete from "./PlacesAutoComplete";
 import { useEffect } from "react";
 import CurrentLocation from "../../common/icons/user-location.svg";
+import axios from "axios";
+import { getRoomDatas } from "../../api/room";
+import { useDispatch } from "react-redux";
 
 const defaultProps = {
   center: {
@@ -33,17 +36,48 @@ const containerStyle = {
 
 function GoogleMapComponent() {
   const [isSelected, setIsSelected] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState();
   const [enteredInput, setEnteredInput] = useState("");
   const [userLocation, setUserLocation] = useState();
+  const [roomList, setRoomList] = useState([]);
+  const [markerList, setMarkerList] = useState([]);
   const inputRef = useRef();
+  const dispatch = useDispatch();
   let field;
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       console.log(coords.latitude);
-      setUserLocation({lat:coords.latitude, lng:coords.longitude});
+      setUserLocation({ lat: coords.latitude, lng: coords.longitude });
     });
+    getRoomData();
   }, []);
+
+  const getRoomData = () => {
+    getRoomDatas((response) => {
+      setRoomList(response.data);
+      console.log(response);
+    }, dispatch);
+  };
+
+  useEffect(() => {
+    const markers = roomList.map((e) => {
+      return (
+        <Marker
+          zIndex={9999}
+          title={e.room.name}
+          position={{
+            lat: e.lat,
+            lng: e.lon,
+          }}
+          onClick={() => {
+            onClickHandler(e);
+          }}
+        />
+      );
+    });
+    setMarkerList(markers);
+  }, [roomList]);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -72,9 +106,16 @@ function GoogleMapComponent() {
   }, []);
 
   const onClickHandler = (e) => {
-    console.log(e.domEvent.target.title);
-    console.log(e);
     setIsSelected(true);
+    setSelectedRoom({
+      name: e.room.name,
+      img: e.room.room_img_url,
+      url: e.room.full_room_url,
+      emptyUrl: e.room.empty_room_url,
+      location: "",
+      phone: e.phone,
+      producer: e.business_name,
+    });
   };
 
   const selectAutoCompletePlace = (lat, lng) => {
@@ -83,7 +124,7 @@ function GoogleMapComponent() {
 
   const currentLocationHandler = () => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
-      map.panTo({lat:coords.latitude, lng:coords.longitude});
+      map.panTo({ lat: coords.latitude, lng: coords.longitude });
     });
   };
 
@@ -91,9 +132,20 @@ function GoogleMapComponent() {
 
   return (
     <div>
-      {isSelected && <MapInfo exit={exitButtonHandler} />}
+      {isSelected && (
+        <MapInfo
+          name={selectedRoom.name}
+          phone={selectedRoom.phone}
+          location={selectedRoom.location}
+          url={selectedRoom.url}
+          emptyUrl={selectedRoom.emptyUrl}
+          img={selectedRoom.img}
+          producer={selectedRoom.producer}
+          exit={exitButtonHandler}
+        />
+      )}
       <div className="userLocation" onClick={currentLocationHandler}>
-        <img src={CurrentLocation} alt="user-location"/>
+        <img src={CurrentLocation} alt="user-location" />
       </div>
       <div>
         <GoogleMap
@@ -108,12 +160,7 @@ function GoogleMapComponent() {
           <div className="searchbar">
             <PlacesAutocomplete className="searchbar" select={selectAutoCompletePlace} />
           </div>
-          <Marker
-            zIndex={9999}
-            title="세종대학교"
-            position={defaultProps.center}
-            onClick={onClickHandler}
-          />
+          {markerList}
         </GoogleMap>
       </div>
     </div>
