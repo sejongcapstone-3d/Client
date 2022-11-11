@@ -145,12 +145,12 @@ function Room() {
         {!isLoaded && isOrbit && <Orbit />}
         <Suspense fallback={<Box position={[0, 0, 0]} />}>
           {/* <primitive onClick={()=>{console.log(1)}} object={new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshNormalMaterial())}/> */}
-          {/* <Model
+          <Model
             loading={loadHandler}
             position={[0, 0, 0]}
             scale={[0.8, 0.8, 0.8]}
-            path="https://3d-rooms.s3.ap-northeast-2.amazonaws.com/test/Room.json"
-          /> */}
+            path={roomState.roomUrl}
+          />
           {furniture}
         </Suspense>
         <ambientLight intensity={1} />
