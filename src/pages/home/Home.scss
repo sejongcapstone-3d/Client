@@ -12,12 +12,14 @@
       font-size: 4rem;
       font-weight: 700;
       color: black;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);;
     }
     &-2 {
       font-family: "Anton";
       font-size: 3rem;
       font-weight: 600;
-      color: blue;
+      color: #4b89dc;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);;
     }
     &-button {
       margin-top: 1rem;
@@ -34,6 +36,11 @@
         font-family: "ReemKufiFun";
         line-height: 5px;
         font-size: 1rem;
+        span{
+          margin-left: 10px;
+          font-size: .7rem;
+          color: #ececec;
+        }
       }
       &-icon {
         color: white;
@@ -42,7 +49,7 @@
       &:hover {
         cursor: pointer;
         width: 25rem;
-        background-color: blue;
+        background-color: #4b89dc;
       }
       transition: 0.5s;
     }

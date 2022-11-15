@@ -42,7 +42,7 @@ const Box = (props) => {
       onPointerEnter={onPointerEnterHanlder}
       castShadow>
       <boxBufferGeometry args={[3, 3, 3]} />
-      <meshPhysicalMaterial color="blue" metalness={0.6} roughness={0.4} />
+      <meshPhysicalMaterial color="#4b89dc" metalness={0.6} roughness={0.4} />
     </mesh>
   );
 };
@@ -63,15 +63,24 @@ function Home() {
     <div className="home">
       <div className="home-title">
         <div className="home-title-1">Visit your rooms</div>
-        <div className="home-title-2">Check it out in 3D</div>
+        <div className="home-title-2">Check it in 3D</div>
         <div
           className="home-title-button"
           onClick={() => {
             navigate("/map");
           }}>
-          <div className="home-title-button-text">Start Visiting</div>
+          <div className="home-title-button-text">방 보기<span>로그인 없이</span></div>
           <img src={Arrow} alt="arrow" className="home-title-button-icon" />
         </div>
+        <div
+          className="home-title-button"
+          onClick={() => {
+            navigate("/user/signIn");
+          }}>
+          <div className="home-title-button-text">방 등록<span>로그인 / 회원가입</span></div>
+          <img src={Arrow} alt="arrow" className="home-title-button-icon" />
+        </div>
+        
       </div>
       <Canvas
         shadows
