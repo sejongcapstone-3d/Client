@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import "./SignUp.scss";
@@ -74,6 +75,17 @@ function SignUp() {
     });
   };
 
+  const signupButtonHandler = async () => {
+    const response = await axios.post('https://capstone3d.org/sign-up',{
+      email:enterdInput.email,
+      password:enterdInput.password,
+      nickname:enterdInput.nickname,
+      phone:enterdInput.phone,
+      business_name:enterdInput.buisnessName
+    });
+    console.log(response);
+  };
+  
   return (
     <div className="user">
       <div className="signin">
@@ -139,7 +151,7 @@ function SignUp() {
             <span className="signin-inputbox-feedback">{feedback.buisnessName}</span>
           )}
         </div>
-        <button disabled={!isValid} className="signin-button">회원가입</button>
+        <button disabled={!isValid} className="signin-button" onClick={signupButtonHandler}>회원가입</button>
       </div>
     </div>
   );

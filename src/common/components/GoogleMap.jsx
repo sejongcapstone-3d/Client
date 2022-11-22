@@ -1,15 +1,9 @@
 import React from "react";
 import {
   GoogleMap,
-  Animation,
-  LoadScript,
-  StandaloneSearchBox,
   Marker,
   useJsApiLoader,
-  InfoWindow,
-  Autocomplete,
 } from "@react-google-maps/api";
-import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import MapInfo from "./MapInfo";
 import { useRef } from "react";
 import { useState } from "react";
@@ -18,7 +12,6 @@ import "./GoogleMap.scss";
 import PlacesAutocomplete from "./PlacesAutoComplete";
 import { useEffect } from "react";
 import CurrentLocation from "../../common/icons/user-location.svg";
-import axios from "axios";
 import { getRoomDatas } from "../../api/room";
 import { useDispatch } from "react-redux";
 
@@ -37,13 +30,10 @@ const containerStyle = {
 function GoogleMapComponent() {
   const [isSelected, setIsSelected] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState();
-  const [enteredInput, setEnteredInput] = useState("");
   const [userLocation, setUserLocation] = useState();
   const [roomList, setRoomList] = useState([]);
   const [markerList, setMarkerList] = useState([]);
-  const inputRef = useRef();
   const dispatch = useDispatch();
-  let field;
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
@@ -95,8 +85,6 @@ function GoogleMapComponent() {
   const [map, setMap] = React.useState(null);
 
   const onLoad = React.useCallback(function callback(map) {
-    // const bounds = new window.google.maps.LatLngBounds(defaultProps.center);
-    // map.fitBounds(bounds);
     setMap(map);
     map.disableDefaultUI = true;
   }, []);
@@ -158,7 +146,7 @@ function GoogleMapComponent() {
           onUnmount={onUnmount}
         >
           <div className="searchbar">
-            <PlacesAutocomplete className="searchbar" select={selectAutoCompletePlace} />
+            <PlacesAutocomplete placeholder="원하는 지역의 방 찾기" className="searchbar" select={selectAutoCompletePlace} />
           </div>
           {markerList}
         </GoogleMap>

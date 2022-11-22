@@ -58,7 +58,7 @@ const PlacesAutocomplete = (props) => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="원하는 지역의 집 찾기"
+        placeholder={props.placeholder}
       />
       {status === "OK" && <ul className="placeAutoComplete-list">{renderSuggestions()}</ul>}
     </div>
