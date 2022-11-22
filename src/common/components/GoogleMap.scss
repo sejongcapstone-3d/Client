@@ -1,10 +1,10 @@
-.upload{
+.upload {
   display: flex;
   width: 100vw;
   height: 100vh;
   justify-content: center;
   align-items: center;
-  &-info{
+  &-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,14 +15,51 @@
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
     margin-right: 3vw;
-    &-user{
+    &-photo {
+      position: relative;
+      input {
+        display: none;
+      }
+      &-label {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        right: -9px;
+        width: 41px;
+        height: 41px;
+        border-radius: 100%;
+        background-color: white;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        transition: 0.2s;
+        &:active {
+          transform: scale(0.9);
+        }
+      }
+      &-preview {
+        background-color: #e5e5e5;
+        border-radius: 10px;
+        width: 18vw;
+        height: 18vw;
+        margin-bottom: 20px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+      &-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    &-user {
       width: 80%;
     }
-    &-input{
+    &-input {
       display: flex;
       justify-content: center;
       width: 80%;
-      input{
+      input {
         width: 100%;
         padding: 5px;
         height: 20px;
@@ -31,20 +68,20 @@
         border-left: 0;
         border-right: 0;
         border-bottom: 2px solid #ececec;
-        &:focus{
+        &:focus {
           outline: none;
           border-top: 0;
-        border-left: 0;
-        border-right: 0;
-        border-bottom: 2px solid #b9b9b9;
+          border-left: 0;
+          border-right: 0;
+          border-bottom: 2px solid #b9b9b9;
         }
       }
     }
-    &-latlng{
+    &-latlng {
       width: 80%;
       padding: 0 5px;
       display: flex;
-      input{
+      input {
         width: 100%;
         padding: 5px;
         height: 20px;
@@ -53,43 +90,41 @@
         border-left: 0;
         border-right: 0;
         border-bottom: 2px solid #ececec;
-        &:focus{
+        &:focus {
           outline: none;
           border-top: 0;
-        border-left: 0;
-        border-right: 0;
-        border-bottom: 2px solid #b9b9b9;
+          border-left: 0;
+          border-right: 0;
+          border-bottom: 2px solid #b9b9b9;
         }
       }
-      &-lat{
+      &-lat {
         // width: 50%;
         margin-right: 10px;
       }
-      &-lng{
+      &-lng {
         // width: 50%;
         margin-left: 10px;
       }
     }
-    
   }
-  &-map{
+  &-map {
     margin-left: 3vw;
-    width:43vw;
+    width: 43vw;
     height: 90vh;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
   }
 }
 
-.searchbar{
+.searchbar {
   position: absolute;
   left: 50%;
   top: 20px;
   display: flex;
   transform: translateX(-50%);
-  
 }
-.userLocation{
+.userLocation {
   position: absolute;
   top: 20px;
   right: 10%;

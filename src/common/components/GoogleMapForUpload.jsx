@@ -8,6 +8,8 @@ import PlacesAutocomplete from "./PlacesAutoComplete";
 import { useEffect } from "react";
 import CurrentLocation from "../../common/icons/user-location.svg";
 import { useDispatch } from "react-redux";
+import Camera from "../icons/camera.svg";
+import imageCompression from "browser-image-compression";
 
 const defaultProps = {
   center: {
@@ -23,7 +25,15 @@ const containerStyle = {
 };
 
 function GoogleMapForUpload() {
+  const [image, setImage] = useState();
+  const [sendingImage, setSendingImage] = useState();
   const [userLocation, setUserLocation] = useState();
+  const [enteredInput, setEnteredInput] = useState({
+    name: "",
+    address: "",
+    lat: "",
+    lng: "",
+  });
   const [latLng, setLatLng] = useState({ lat: 0, lng: 0 });
   const [marker, setMarker] = useState();
 
@@ -39,6 +49,15 @@ function GoogleMapForUpload() {
       <Marker zIndex={9999} position={{ lat: latLng.lat, lng: latLng.lng }} />
     );
     setMarker(marker);
+    const google = window.google;
+    const geocoder = new google.maps.Geocoder();
+    if (latLng.lat > 0 && latLng.lng > 0) {
+      geocoder.geocode({ location: latLng }, (results, status) => {
+        setEnteredInput((prev) => {
+          return { ...prev, address: results[0].formatted_address.slice(5,) || "" };
+        });
+      });
+    }
   }, [latLng]);
 
   const { isLoaded } = useJsApiLoader({
@@ -72,7 +91,26 @@ function GoogleMapForUpload() {
   };
 
   const mapClickHandler = (e) => {
+    console.log(e);
     setLatLng({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+  };
+
+  const handleImage = async (e) => {
+    const reader = new FileReader();
+    reader.onload = function () {
+      setImage(reader.result);
+    };
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    const compressedFile = await imageCompression(e.target.files[0], options);
+    reader.readAsDataURL(compressedFile);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      setSendingImage(base64data);
+    };
   };
 
   if (!isLoaded) return <></>;
@@ -80,16 +118,34 @@ function GoogleMapForUpload() {
   return (
     <div className="upload">
       <div className="upload-info">
-        <input className="upload-info-photo" type="image"/>
+        <div className="upload-info-photo">
+          <label htmlFor="image" className="upload-info-photo-label">
+            <input
+              type="file"
+              accept="image/jpeg,image/gif,image/png;capture=filesystem"
+              name="image"
+              value={null}
+              id="image"
+              autoComplete="off"
+              className="upload-info-photo"
+              onChange={handleImage}
+            />
+            <img src={Camera} className="upload-info-photo-icon" />
+          </label>
+          <div
+            className="upload-info-photo-preview"
+            style={{ backgroundImage: `url(${image})` }}
+          />
+        </div>
         <div className="upload-info-input">
           <input className="upload-info-name" placeholder="방 이름" />
         </div>
         <div className="upload-info-input">
-          <input className="upload-info-address" placeholder="주소" />
+          <input value={enteredInput.address} className="upload-info-address" placeholder="주소" />
         </div>
         <div className="upload-info-latlng">
-          <input className="upload-info-latlng-lat" placeholder="위도" />
-          <input className="upload-info-latlng-lng" placeholder="경도" />
+          <input value={latLng.lat} className="upload-info-latlng-lat" placeholder="위도" />
+          <input value={latLng.lng} className="upload-info-latlng-lng" placeholder="경도" />
         </div>
         <div className="upload-info-user">이름</div>
         <div className="upload-info-user">010-5023-9161</div>
