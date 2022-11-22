@@ -12,12 +12,7 @@ import { furnitureActions } from "../../redux/furnitureSlice";
 import { useDispatch } from "react-redux";
 
 const RoomHeader = (props) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const backButtonHandler = () => {
-    navigate(-1);
-  };
 
   const clearFurniture = () => {
     dispatch(furnitureActions.clearFurniture());
@@ -33,7 +28,7 @@ const RoomHeader = (props) => {
           <img src={EmptyRoom} alt="empty-room" />
         </div>
       </div>
-      <FurnitureList addFurniture={props.addFurniture}/>
+      <FurnitureList />
       <div className="room-header-sub">
         <div className="room-header-sub-item" onClick={clearFurniture}>
           <img src={Delete} alt="clear"/>

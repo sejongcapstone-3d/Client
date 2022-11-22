@@ -12,7 +12,6 @@ function FurnitureSelector() {
   const [isHide, setIsHide] = useState(false);
   const dispatch = useDispatch();
   if (furnitures.length <= 0) return <div />;
-  console.log(furnitures);
 
   const select = (furniture) => {
     dispatch(furnitureActions.select(furniture));

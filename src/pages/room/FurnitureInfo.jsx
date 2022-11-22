@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Plus from "../../common/icons/plus.svg";
 import { furnitureActions } from "../../redux/furnitureSlice";
 import "./FurnitureInfo.scss";
-import FurniturePreivew from "./FurniturePreview";
 import Exit from "../../common/icons/exit.svg";
 
 function FurnitureInfo() {
   const selected = useSelector((state) => state.furniture.selectedInfo);
-  console.log(selected);
   const dispatch = useDispatch();
   const addFurniture = () => {
     dispatch(
@@ -20,37 +18,33 @@ function FurnitureInfo() {
       })
     );
   };
-  
+
   const closeInfoWindow = () => {
     dispatch(furnitureActions.infoHide());
     dispatch(furnitureActions.setInfo(null));
-  }
+  };
 
   if (selected) {
     return (
       <div className="furnitureinfo">
         <div className="furnitureinfo-exit" onClick={closeInfoWindow}>
-          <img src={Exit} alt="exit"/>
+          <img src={Exit} alt="exit" />
         </div>
         <div className="furnitureinfo-graphic">
           <img src={selected.img} alt="size-image" />
           <div className="furnitureinfo-size">
-          <span>가로 : {selected.size.x}cm</span>
-          <span>세로 : {selected.size.y}cm</span>
-          <span>높이 : {selected.size.z}cm</span>
+            <span>가로 : {selected.size.x}cm</span>
+            <span>세로 : {selected.size.y}cm</span>
+            <span>높이 : {selected.size.z}cm</span>
+          </div>
         </div>
-          {/* <FurniturePreivew path={selected.path}/> */}
-          {/* <img src={selected.img} alt="size-image" /> */}
-          {/* 3d viewer */}
-        </div>
-        
         <div className="furnitureinfo-add" onClick={addFurniture}>
           <span>가구 배치</span>
           <img src={Plus} alt="plus" />
         </div>
       </div>
     );
-  } else return <div></div>;
+  } else return <div/>;
 }
 
 export default FurnitureInfo;

@@ -1,23 +1,11 @@
 import React, { Suspense, useRef } from "react";
-import * as THREE from "three";
 import {
   Canvas,
   useFrame,
-  extend,
-  useThree,
-  useLoader
 } from "@react-three/fiber";
 import { useNavigate } from "react-router-dom";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import "./Home.scss";
-import Model from "../../common/components/Model";
 import Arrow from "../../common/icons/arrow-white.svg";
-extend({ OrbitControls });
-
-const Orbit = () => {
-  const { camera, gl } = useThree();
-  return <orbitControls args={[camera, gl.domElement]} />;
-};
 
 const Box = (props) => {
   const ref = useRef();
@@ -88,7 +76,6 @@ function Home() {
         camera={{ position: [4, 4, 5] }}>
         <pointLight castShadow position={[1, 5, 0]} />
         <Suspense fallback={null}>
-          {/* <Model position={[2, 1, 0]} scale={[0.6, 0.6, 0.6]} path='https://3d-rooms.s3.ap-northeast-2.amazonaws.com/Sample2.json' /> */}
           <Box position={[2, 1, -1]} />
         </Suspense>
         <ambientLight intensity={1} />

@@ -15,14 +15,6 @@ const Furniture = (props) => {
         img: props.img,
       })
     );
-    // dispatch(
-    //   furnitureActions.addFurniture({
-    //     name: props.name,
-    //     path: props.path,
-    //     size: props.size,
-    //     img: props.img,
-    //   })
-    // );
   };
   return (
     <div className="furniture" onClick={clickHandler}>

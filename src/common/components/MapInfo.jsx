@@ -8,10 +8,8 @@ import Phone from "../icons/phone.svg";
 import Location from "../icons/location.svg";
 import BackArrow from "../icons/back-arrow.svg";
 import RightArrow from "../icons/right-arrow.svg";
-import { roomActions } from "../../redux/roomSlice";
 
 function MapInfo(props) {
-  const dispatch = useDispatch();
   const ref = useOnclickOutside(() => {
     props.exit();
   });

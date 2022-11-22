@@ -55,7 +55,7 @@ function GoogleMapComponent() {
 
   const getRoomData = () => {
     getRoomDatas((response) => {
-      setRoomList(response.data);
+      setRoomList(response.data.data);
       console.log(response);
     }, dispatch);
   };
