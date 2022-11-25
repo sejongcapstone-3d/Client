@@ -4,6 +4,15 @@
   height: 100vh;
   justify-content: center;
   align-items: center;
+  &-user {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-info {
+      width: 100%;
+    }
+  }
   &-info {
     display: flex;
     flex-direction: column;
@@ -38,8 +47,8 @@
       &-preview {
         background-color: #e5e5e5;
         border-radius: 10px;
-        width: 18vw;
-        height: 18vw;
+        width: 13vw;
+        height: 13vw;
         margin-bottom: 20px;
         background-repeat: no-repeat;
         background-size: cover;
@@ -52,8 +61,28 @@
         transform: translate(-50%, -50%);
       }
     }
-    &-user {
+    &-submit {
       width: 80%;
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      text-align: center;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
+      cursor: pointer;
+      background-color: #4b89dc;
+    }
+    &-user {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin: 10px 0;
+      color: #4b89dc;
+      span {
+        color: black;
+        font-size: 13px;
+        font-weight: 500;
+      }
     }
     &-input {
       display: flex;
@@ -109,11 +138,28 @@
     }
   }
   &-map {
+    position: relative;
     margin-left: 3vw;
     width: 43vw;
     height: 90vh;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
+    &-userLocation {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9;
+      width: 28px;
+      height: 28px;
+      background-color: white;
+      padding: 4px;
+      border-radius: 3px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
   }
 }
 

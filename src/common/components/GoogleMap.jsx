@@ -58,7 +58,7 @@ function GoogleMapComponent() {
           title={e.room.name}
           position={{
             lat: e.lat,
-            lng: e.lon,
+            lng: e.lng,
           }}
           onClick={() => {
             onClickHandler(e);

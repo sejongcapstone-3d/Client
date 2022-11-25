@@ -7,9 +7,10 @@ import "./GoogleMap.scss";
 import PlacesAutocomplete from "./PlacesAutoComplete";
 import { useEffect } from "react";
 import CurrentLocation from "../../common/icons/user-location.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Camera from "../icons/camera.svg";
 import imageCompression from "browser-image-compression";
+import { uploadRoom } from "../../api/room";
 
 const defaultProps = {
   center: {
@@ -25,6 +26,9 @@ const containerStyle = {
 };
 
 function GoogleMapForUpload() {
+  const user = useSelector((state)=> state.user);
+  const accessToken = window.localStorage.getItem('accessToken');
+  const refreshToken = window.localStorage.getItem('refreshToken');
   const [image, setImage] = useState();
   const [sendingImage, setSendingImage] = useState();
   const [userLocation, setUserLocation] = useState();
@@ -54,7 +58,7 @@ function GoogleMapForUpload() {
     if (latLng.lat > 0 && latLng.lng > 0) {
       geocoder.geocode({ location: latLng }, (results, status) => {
         setEnteredInput((prev) => {
-          return { ...prev, address: results[0].formatted_address.slice(5,) || "" };
+          return { ...prev, address: results[0].formatted_address.slice(5) || "" };
         });
       });
     }
@@ -92,6 +96,13 @@ function GoogleMapForUpload() {
 
   const mapClickHandler = (e) => {
     console.log(e);
+    setEnteredInput((prev) => {
+      return {
+        ...prev,
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+      };
+    });
     setLatLng({ lat: e.latLng.lat(), lng: e.latLng.lng() });
   };
 
@@ -111,6 +122,39 @@ function GoogleMapForUpload() {
       const base64data = reader.result;
       setSendingImage(base64data);
     };
+  };
+
+  const handlingDataForm = async (dataURI) => {
+    const byteString = atob(dataURI.split(",")[1]);
+
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i += 1) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ia], {
+      type: "image/jpeg",
+    });
+    const file = new File([blob], "image.jpg");
+
+    const formData = new FormData();
+    formData.append("img", file);
+
+    return formData;
+  };
+
+  const submitHandler = async () => {
+    const formData = await handlingDataForm(sendingImage);
+    formData.append("userId", user.userId);
+    formData.append("title", enteredInput.name);
+    formData.append("file", "");
+    formData.append("address", enteredInput.address);
+    formData.append("lat", enteredInput.lat);
+    formData.append("lng", enteredInput.lng);
+    console.log(enteredInput);
+    uploadRoom(formData,accessToken,(response)=>{
+      console.log(response);
+    })
   };
 
   if (!isLoaded) return <></>;
@@ -138,21 +182,55 @@ function GoogleMapForUpload() {
           />
         </div>
         <div className="upload-info-input">
-          <input className="upload-info-name" placeholder="방 이름" />
+          <input
+            className="upload-info-name"
+            value={enteredInput.name}
+            onChange={(e) => {
+              setEnteredInput((prev) => {
+                return { ...prev, name: e.target.value };
+              });
+            }}
+            placeholder="방 이름"
+          />
         </div>
         <div className="upload-info-input">
-          <input value={enteredInput.address} className="upload-info-address" placeholder="주소" />
+          <input
+            value={enteredInput.address}
+            className="upload-info-address"
+            placeholder="주소"
+          />
         </div>
         <div className="upload-info-latlng">
-          <input value={latLng.lat} className="upload-info-latlng-lat" placeholder="위도" />
-          <input value={latLng.lng} className="upload-info-latlng-lng" placeholder="경도" />
+          <input
+            value={latLng.lat}
+            className="upload-info-latlng-lat"
+            placeholder="위도"
+          />
+          <input
+            value={latLng.lng}
+            className="upload-info-latlng-lng"
+            placeholder="경도"
+          />
         </div>
-        <div className="upload-info-user">이름</div>
-        <div className="upload-info-user">010-5023-9161</div>
-        <div className="upload-info-user">상호명</div>
+        <div className="upload-user">
+          <div className="upload-user-info">
+            <div className="upload-info-user">
+              판매자 <span>{user.nickName}</span>
+            </div>
+            <div className="upload-info-user">
+              판매자 번호 <span>{user.phone}</span>
+            </div>
+            <div className="upload-info-user">
+              상호명 <span>{user.businessName}</span>
+            </div>
+          </div>
+        </div>
+        <div className="upload-info-submit" onClick={submitHandler}>
+          등록
+        </div>
       </div>
       <div className="upload-map">
-        <div className="userLocation" onClick={currentLocationHandler}>
+        <div className="upload-map-userLocation" onClick={currentLocationHandler}>
           <img src={CurrentLocation} alt="user-location" />
         </div>
         <div>

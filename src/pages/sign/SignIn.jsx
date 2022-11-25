@@ -1,11 +1,14 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { userActions } from "../../redux/userSlice";
 import "./SignIn.scss";
 
 function SignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [enteredInput, setEnteredInput] = useState({ email: "", password: "" });
   const signinButtonHandler = async () => {
     const response = await axios.post("https://capstone3d.org/login", {
@@ -14,6 +17,15 @@ function SignIn() {
     });
     console.log(response);
     if(response.data.status===200){
+      const { data } = response.data;
+      console.log(data.id);
+      dispatch(userActions.signIn({
+        businessName:data.business_name,
+        userId:data.id,
+        nickName:data.nickname,
+        phone:data.phone,
+        isSignIn:true,
+      }))
       navigate('/user/upload');
     }
   };
