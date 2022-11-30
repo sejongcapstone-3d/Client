@@ -13,7 +13,7 @@ async function uploadRoom(formData,accessToken, func){
     await axios.post('https://capstone3d.org/upload', formData, {
       headers: {
         'Content-Type' : 'multipart/form-data',
-        'Authorization' : 'Bearer' + accessToken.slice(6,)
+        // 'Authorization' : 'Bearer ' + accessToken
       }
     })
     .then((data)=>{

@@ -19,6 +19,9 @@ function SignIn() {
     if(response.data.status===200){
       const { data } = response.data;
       console.log(data.id);
+      console.log(response.headers);
+      window.localStorage.setItem("accessToken", response.headers.atk);
+      window.localStorage.setItem("refreshToekn", response.headers.rtk);
       dispatch(userActions.signIn({
         businessName:data.business_name,
         userId:data.id,

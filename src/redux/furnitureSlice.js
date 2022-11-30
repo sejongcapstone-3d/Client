@@ -18,8 +18,6 @@ const furnitureSlice = createSlice({
       state.selectedFurniture = null;
     },
     addFurniture(state, action) {
-      console.log(action.payload);
-      console.log(state.furnitures);
       state.furnitures = [
         ...state.furnitures,
         {

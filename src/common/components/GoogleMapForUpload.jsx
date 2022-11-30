@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Camera from "../icons/camera.svg";
 import imageCompression from "browser-image-compression";
 import { uploadRoom } from "../../api/room";
+import PTS from "../icons/3d.svg";
 
 const defaultProps = {
   center: {
@@ -26,11 +27,13 @@ const containerStyle = {
 };
 
 function GoogleMapForUpload() {
-  const user = useSelector((state)=> state.user);
-  const accessToken = window.localStorage.getItem('accessToken');
-  const refreshToken = window.localStorage.getItem('refreshToken');
+  const user = useSelector((state) => state.user);
+  const accessToken = window.localStorage.getItem("accessToken");
+  const refreshToken = window.localStorage.getItem("refreshToken");
   const [image, setImage] = useState();
+  const [pts, setPts] = useState();
   const [sendingImage, setSendingImage] = useState();
+  const [ptsName, setPtsName] = useState("");
   const [userLocation, setUserLocation] = useState();
   const [enteredInput, setEnteredInput] = useState({
     name: "",
@@ -39,7 +42,13 @@ function GoogleMapForUpload() {
     lng: "",
   });
   const [latLng, setLatLng] = useState({ lat: 0, lng: 0 });
-  const [marker, setMarker] = useState();
+  const [marker, setMarker] = useState(
+    <Marker
+      title="위치"
+      zIndex={9999}
+      position={{ lat: 37.552848352703556, lng: 127.07506747739092 }}
+    />
+  );
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
@@ -49,10 +58,15 @@ function GoogleMapForUpload() {
   }, []);
 
   useEffect(() => {
-    const marker = (
-      <Marker zIndex={9999} position={{ lat: latLng.lat, lng: latLng.lng }} />
+    const temp = (
+      <Marker
+        title="위치"
+        zIndex={9999}
+        position={{ lat: latLng.lat, lng: latLng.lng }}
+      />
     );
-    setMarker(marker);
+    console.log(latLng.lat, latLng.lng);
+    setMarker(temp);
     const google = window.google;
     const geocoder = new google.maps.Geocoder();
     if (latLng.lat > 0 && latLng.lng > 0) {
@@ -147,18 +161,23 @@ function GoogleMapForUpload() {
     const formData = await handlingDataForm(sendingImage);
     formData.append("userId", user.userId);
     formData.append("title", enteredInput.name);
-    formData.append("file", "");
+    formData.append("file", pts);
     formData.append("address", enteredInput.address);
     formData.append("lat", enteredInput.lat);
     formData.append("lng", enteredInput.lng);
-    console.log(enteredInput);
-    uploadRoom(formData,accessToken,(response)=>{
+    await uploadRoom(formData, accessToken, (response) => {
       console.log(response);
-    })
+    });
   };
 
-  if (!isLoaded) return <></>;
+  const setPtsFile = (e) => {
+    setPts(e.target.files[0]);
+    setPtsName(e.target.value.slice(12,));
+  };
 
+  console.log(ptsName);
+
+  if (!isLoaded) return <></>;
   return (
     <div className="upload">
       <div className="upload-info">
@@ -179,6 +198,23 @@ function GoogleMapForUpload() {
           <div
             className="upload-info-photo-preview"
             style={{ backgroundImage: `url(${image})` }}
+          />
+          <label htmlFor="pts" className="upload-info-pts-label">
+            <input
+              type="file"
+              name="pts"
+              id="pts"
+              autoComplete="off"
+              onChange={setPtsFile}
+            />
+            <img src={PTS} alt="3d" />
+          </label>
+        </div>
+        <div className="upload-info-input">
+          <input
+            value={ptsName}
+            className="upload-info-pts"
+            placeholder=".pts 파일"
           />
         </div>
         <div className="upload-info-input">

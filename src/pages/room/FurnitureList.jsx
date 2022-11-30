@@ -16,7 +16,7 @@ const FurnitureList = () => {
   }, []);
 
   const getFurnitureList = async () => {
-    const response = await axios("http://3.35.40.132:8080/furniture");
+    const response = await axios("https://capstone3d.org/furniture");
     const arr = response.data.data.map((e) => {
       return {
         img: e.furniture_img_url,
