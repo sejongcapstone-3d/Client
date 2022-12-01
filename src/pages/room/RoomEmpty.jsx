@@ -40,7 +40,7 @@ const Box = (props) => {
   );
 };
 
-function Room() {
+function RoomEmpty() {
   const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const furnitures = useSelector((state) => state.furniture.furnitures);
@@ -48,8 +48,7 @@ function Room() {
     (state) => state.furniture.selectedFurniture
   );
   const mode = useSelector((state) => state.furniture.mode);
-  const [roomModeEmpty, setRoomModeEmpty] = useState(false);
-  const [roomModeFull, setRoomModeFull] = useState(true);
+  const [roomModeEmpty, setRoomModeEmpty] = useState(true);
   const [furniture, setFurniture] = useState([]);
   const roomState = useLocation().state;
   const [fullRoom, setFullRoom] = useState();
@@ -87,17 +86,19 @@ function Room() {
     );
   }, [furnitures, mode, selectedFurniture]);
 
+  let FullRoom, EmptyRoom;
+
   return (
     <div className="room">
       <FurnitureSelector />
       <RoomHeader
         toEmpty={() => {
-          navigate("/room/empty", { state: roomState });
+          navigate("/room/empty/", { state: roomState });
         }}
         toOrigin={() => {
           navigate("/room/1", { state: roomState });
         }}
-        isEmpty={false}
+        isEmpty
       />
       {infoOpen && <FurnitureInfo />}
       <RoomSideBar />
@@ -111,7 +112,7 @@ function Room() {
           <Model
             position={[0, 0, 0]}
             scale={[0.8, 0.8, 0.8]}
-            path={roomState.roomUrl}
+            path={roomState.roomEmptyUrl}
           />
           {furniture}
         </Suspense>
@@ -121,4 +122,4 @@ function Room() {
   );
 }
 
-export default Room;
+export default RoomEmpty;

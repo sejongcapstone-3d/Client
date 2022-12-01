@@ -7,16 +7,18 @@ import Furniture from "./Furniture";
 import FurnitureList from "./FurnitureList";
 import TopArrow from "../../common/icons/top-arrow.svg";
 import Delete from "../../common/icons/delete.svg";
-import Info from "../../common/icons/info.svg";
+import Info from "../../common/icons/map.svg";
 import { furnitureActions } from "../../redux/furnitureSlice";
 import { useDispatch } from "react-redux";
 
 const RoomHeader = (props) => {
   const dispatch = useDispatch();
-  const [isEmpty, setIsEmpty] = useState(false);
+  const navigate = useNavigate();
+  const [isEmpty, setIsEmpty] = useState(props.isEmpty);
 
   const clearFurniture = () => {
     dispatch(furnitureActions.clearFurniture());
+    dispatch(furnitureActions.infoHide());
   };
 
   const emptyButtonClickHandler = () => {
@@ -31,7 +33,7 @@ const RoomHeader = (props) => {
   return (
     <div className="room-header">
       <div className="room-header-main" onClick={emptyButtonClickHandler}>
-        빈방보기
+        {isEmpty ? "원래대로" : "빈방보기"}
       </div>
       <FurnitureList />
       <div className="room-header-sub">
@@ -39,9 +41,15 @@ const RoomHeader = (props) => {
           <img src={Delete} alt="clear" />
           <div>가구 초기화</div>
         </div>
-        <div className="room-header-sub-item">
-          <img src={Info} alt="info" />
-          <div>방 정보</div>
+        <div
+          className="room-header-sub-item"
+          aria-hidden="true"
+          onClick={() => {
+            navigate("/map");
+            clearFurniture();
+          }}>
+          <img src={Info} alt="clear" />
+          <div>지도로 돌아가기</div>
         </div>
       </div>
     </div>

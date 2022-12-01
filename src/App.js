@@ -9,6 +9,7 @@ import store from "./redux/store";
 import SignIn from "./pages/sign/SignIn";
 import SignUp from "./pages/sign/SignUp";
 import UploadRoom from "./pages/upload/UploadRoom";
+import RoomEmpty from "./pages/room/RoomEmpty";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/user/signUp" element={<SignUp />} />
           <Route path="/map" element={<Map />} />
           <Route path="/room/:id" element={<Room />} />
+          <Route path="/room/empty" element={<RoomEmpty />} />
           <Route path="/user/upload" element={<UploadRoom />} />
         </Routes>
       </BrowserRouter>

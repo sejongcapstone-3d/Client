@@ -8,7 +8,7 @@ const furnitureSlice = createSlice({
     mode: "translate",
     currentId: 1,
     selectedInfo: null,
-    furnitureInfo: false,
+    furnitureInfo: false
   },
   reducers: {
     select(state, action) {
@@ -18,21 +18,30 @@ const furnitureSlice = createSlice({
       state.selectedFurniture = null;
     },
     addFurniture(state, action) {
+      let count = 1;
+      console.log(action.payload.path.slice(0, -6));
+      state.furnitures.forEach((e) => {
+        if (e.img === action.payload.img) count++;
+      });
+      if (count > 5) {
+        alert("같은가구는 최대 5개까지 배치 가능합니다.");
+        return;
+      }
       state.furnitures = [
         ...state.furnitures,
         {
           name: action.payload.name,
-          path: action.payload.path,
+          path: `${action.payload.path.slice(0, -6)}${count}.json`,
           id: state.currentId,
           img: action.payload.img,
-          size: action.payload.size,
-        },
+          size: action.payload.size
+        }
       ];
       if (state.currentId === 1)
         state.selectedFurniture = {
           name: action.payload.name,
           path: action.payload.path,
-          id: state.currentId,
+          id: state.currentId
         };
       state.currentId += 1;
     },
@@ -55,8 +64,8 @@ const furnitureSlice = createSlice({
     },
     setInfo(state, action) {
       state.selectedInfo = action.payload;
-    },
-  },
+    }
+  }
 });
 
 export const furnitureActions = furnitureSlice.actions;
