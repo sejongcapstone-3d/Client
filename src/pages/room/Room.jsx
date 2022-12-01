@@ -1,5 +1,11 @@
 import React, { Suspense, useRef, useState } from "react";
-import { Canvas, useFrame, extend, useThree, useLoader } from "@react-three/fiber";
+import {
+  Canvas,
+  useFrame,
+  extend,
+  useThree,
+  useLoader
+} from "@react-three/fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Model from "../../common/components/Model";
 import "./Room.scss";
@@ -37,11 +43,17 @@ const Box = (props) => {
 function Room() {
   const [isLoaded, setIsLoaded] = useState(false);
   const furnitures = useSelector((state) => state.furniture.furnitures);
-  const selectedFurniture = useSelector((state) => state.furniture.selectedFurniture);
+  const selectedFurniture = useSelector(
+    (state) => state.furniture.selectedFurniture
+  );
   const mode = useSelector((state) => state.furniture.mode);
+  const [roomModeEmpty, setRoomModeEmpty] = useState(false);
+  const [roomModeFull, setRoomModeFull] = useState(true);
   const [furniture, setFurniture] = useState([]);
   const roomState = useLocation().state;
-  const infoOpen = useSelector((state)=>state.furniture.furnitureInfo);
+  const [fullRoom, setFullRoom] = useState();
+  const [emptyRoom, setEmptyRoom] = useState();
+  const infoOpen = useSelector((state) => state.furniture.furnitureInfo);
   const loadHandler = () => {
     setIsLoaded(true);
   };
@@ -51,14 +63,17 @@ function Room() {
       furnitures.map((data) => {
         return (
           <TransformControls
-            onMouseDown={()=>{setIsLoaded(true)}}
-            onMouseUp={()=>{setIsLoaded(false)}}
+            onMouseDown={() => {
+              setIsLoaded(true);
+            }}
+            onMouseUp={() => {
+              setIsLoaded(false);
+            }}
             showX={selectedFurniture.id === data.id}
             showY={selectedFurniture.id === data.id}
             showZ={selectedFurniture.id === data.id}
             enabled={selectedFurniture.id === data.id}
-            mode={mode}
-          >
+            mode={mode}>
             <Model
               loading={loadHandler}
               position={[0, 0, 0]}
@@ -71,22 +86,51 @@ function Room() {
     );
   }, [furnitures, mode, selectedFurniture]);
 
+  let FullRoom, EmptyRoom;
+
+  useEffect(() => {
+    setFullRoom(
+      <Model
+        position={[0, 0, 0]}
+        scale={[0.8, 0.8, 0.8]}
+        path={roomState.roomUrl}
+      />
+    );
+    setEmptyRoom(
+      <Model
+        position={[0, 0, 0]}
+        scale={[0.8, 0.8, 0.8]}
+        path={roomState.roomEmptyUrl}
+      />
+    );
+  }, []);
+
+  console.log(roomModeEmpty, roomState.roomEmptyUrl, roomState.roomUrl);
+
   return (
     <div className="room">
       <FurnitureSelector />
-      <RoomHeader />
-      {infoOpen && <FurnitureInfo/>}
+      <RoomHeader
+        toEmpty={() => {
+          setRoomModeEmpty(true);
+          setRoomModeFull(false);
+        }}
+        toOrigin={() => {
+          setRoomModeEmpty(false);
+          setRoomModeFull(true);
+        }}
+      />
+      {infoOpen && <FurnitureInfo />}
       <RoomSideBar />
-      <Canvas shadows style={{ background: "#ececec" }} camera={{ position: [4, 4, 4] }}>
+      <Canvas
+        shadows
+        style={{ background: "#ececec" }}
+        camera={{ position: [4, 4, 4] }}>
         <pointLight castShadow position={[1, 5, 0]} />
         {!isLoaded && <Orbit />}
         <Suspense fallback={<Box position={[0, 0, 0]} />}>
-          <Model
-            loading={loadHandler}
-            position={[0, 0, 0]}
-            scale={[0.8, 0.8, 0.8]}
-            path={roomState.roomUrl}
-          />
+          {roomModeFull && fullRoom}
+          {roomModeEmpty && emptyRoom}
           {furniture}
         </Suspense>
         <ambientLight intensity={1} />

@@ -12,14 +12,14 @@
       font-size: 4rem;
       font-weight: 700;
       color: black;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
     }
     &-2 {
       font-family: "Anton";
       font-size: 3rem;
       font-weight: 600;
       color: #4b89dc;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
     }
     &-button {
       margin-top: 1rem;
@@ -33,12 +33,11 @@
       box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 8px;
       &-text {
         color: white;
-        font-family: "ReemKufiFun";
         line-height: 5px;
         font-size: 1rem;
-        span{
+        span {
           margin-left: 10px;
-          font-size: .7rem;
+          font-size: 0.7rem;
           color: #ececec;
         }
       }

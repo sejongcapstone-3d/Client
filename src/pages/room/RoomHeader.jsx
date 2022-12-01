@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./RoomHeader.scss";
 import { useNavigate } from "react-router-dom";
 import FillRoom from "../../common/icons/fill-room.svg";
@@ -13,25 +13,30 @@ import { useDispatch } from "react-redux";
 
 const RoomHeader = (props) => {
   const dispatch = useDispatch();
+  const [isEmpty, setIsEmpty] = useState(false);
 
   const clearFurniture = () => {
     dispatch(furnitureActions.clearFurniture());
   };
 
+  const emptyButtonClickHandler = () => {
+    if (isEmpty) {
+      props.toOrigin();
+    } else {
+      props.toEmpty();
+    }
+    setIsEmpty(!isEmpty);
+  };
+
   return (
     <div className="room-header">
-      <div className="room-header-main">
-        <div>
-          <img src={FillRoom} alt="fill-room" />
-        </div>
-        <div>
-          <img src={EmptyRoom} alt="empty-room" />
-        </div>
+      <div className="room-header-main" onClick={emptyButtonClickHandler}>
+        빈방보기
       </div>
       <FurnitureList />
       <div className="room-header-sub">
         <div className="room-header-sub-item" onClick={clearFurniture}>
-          <img src={Delete} alt="clear"/>
+          <img src={Delete} alt="clear" />
           <div>가구 초기화</div>
         </div>
         <div className="room-header-sub-item">
