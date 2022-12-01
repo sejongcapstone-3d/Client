@@ -11,18 +11,25 @@ const FurnitureList = () => {
   const [page, setPage] = useState(0);
   const [furnitures, setFurnitures] = useState([]);
 
+  console.log(furnitures);
+
   useEffect(() => {
     getFurnitureList();
   }, []);
 
   const getFurnitureList = async () => {
     const response = await axios("https://capstone3d.org/furniture");
+    console.log(response);
     const arr = response.data.data.map((e) => {
       return {
         img: e.furniture_img_url,
         path: e.furniture_url,
         name: e.category,
-        size: { x: e.furniture_width, y: e.furniture_height, z: e.furniture_depth },
+        size: {
+          x: e.x,
+          y: e.y,
+          z: e.z
+        }
       };
     });
     setFurnitures(arr);
@@ -34,7 +41,7 @@ const FurnitureList = () => {
   };
 
   const nextButtonHandler = () => {
-    if (page === Math.floor(furnitures.length/5)) return;
+    if (page === Math.floor(furnitures.length / 5)) return;
     setPage(page + 1);
   };
 
@@ -79,7 +86,7 @@ const FurnitureList = () => {
           name={furnitures[5 * page + 4].name}
           size={furnitures[5 * page + 4].size}
         />
-      ),
+      )
     ];
   }
 
